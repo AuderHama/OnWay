@@ -73,8 +73,8 @@
   },
   "login": {
     "title": "Login to your account",
-    "login": "useTranslatidon",
-    "email": "useTranslatidon",
-    "password": "useTranslatidon"
+    "login": "Login",
+    "email": "Email",
+    "password": "Password"
   }
 }
