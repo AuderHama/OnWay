@@ -1,36 +1,122 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## OnWay
 
-## Getting Started
+This Project is built as a Bun monorepo with a Next.js dashboard and a Hono API. with nextjs its a multi-language delivery admin panel demo so the admins can monitor and manage the current and the history of stores, products and orders also be able to modify or create new items in each list
 
-First, run the development server:
+### Tools used in the project
+
+- nextjs
+  - app router
+  - middleware
+- typescript
+  - type safety
+- Hono:
+  - creating apis
+  - jwt
+  - validations
+  - creating cookies
+- bun
+  - package manager
+  - monorepo
+  - creating apis
+- zod
+  - validation
+  - data safety and structure
+- bcryptjs
+  - hashing password
+- drizzle
+  - communicating with the database
+- postgreSql
+  - database
+- tanstack query
+  - fetching from apis
+- i18next
+  - for multiple language support (English, and Kurdish in this case)
+  - rtl support
+- tailwind
+  - styling
+- shadcn
+  - ui components
+  - direction (making the components to change direction with language chnage not just the direction of the page)
+
+## Steps to run the project locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/AuderHama/OnWay
+cd OnWay
+bun install
+
+# create apps/api/.env with DATABASE_URL, JWT_SECRET, PORT=3001
+
+bun run --filter @on-way/api db:migrate
+bun run --filter @on-way/api db:seed
+
+bun run dev:api   # http://localhost:3001
+bun run dev:web   # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Live AWS URL
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://63.178.12.226/
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Login
 
-## Learn More
+#### email
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+admin@example.com
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### password
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+admin123
+```
 
-## Deploy on Vercel
+### env variable lists
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+ DATABASE_URL
+ JWT_SECRET
+ PORT
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### API examples
+
+1. Login
+
+```bash
+curl -X POST http://localhost:3001/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -c cookies.txt \
+  -d "{\"email\":\"admin@example.com\",\"password\":\"admin123\"}"
+```
+
+2. Create order
+
+```bash
+curl -X POST http://localhost:3001/api/v1/orders \
+  -H "Content-Type: application/json" \
+  -d "{\"customerName\":\"Ahmad\",\"phone\":\"0750000000\",\"address\":\"Ranya\",\"storeId\":1,\"item\":[{\"productId\":1,\"qty\":2},{\"productId\":2,\"qty\":1}]}"
+```
+
+3. Update order status
+
+```bash
+curl -X PATCH http://localhost:3001/api/v1/orders/1/status \
+  -H "Content-Type: application/json" \
+  -b cookies.txt \
+  -d "{\"status\":\"accepted\"}"
+```
+
+#### What I would improve about this project if i had more time?
+
+- live reload for orders
+- more error handling
+- toasts to show the performed actions
+- more mature dashboard so the admin will have an idea of things without opening the pages
+- dialog to show order details
+- more consistent and nicer design
+
+#### Time spent:
+
+15 - 20 hours if you count the search

@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: onway
+      POSTGRES_PASSWORD: onway123
+      POSTGRES_DB: onway
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  app:
+    build: .
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://onway:onway123@postgres:5432/onway
+    ports:
+      - "80:3000"
+volumes:
+  pgdata:
